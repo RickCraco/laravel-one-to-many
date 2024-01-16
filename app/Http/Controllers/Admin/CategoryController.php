@@ -14,7 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -22,7 +23,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('admin.categories.create', compact('categories'));
     }
 
     /**
@@ -30,7 +32,12 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $formData = $request->validated();
+        $slug = Str::slug($formData['name'], '-');
+        $formData['slug'] = $slug;
+
+        Category::create($formData);
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -38,7 +45,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return view('admin.categories.show', compact('category'));
     }
 
     /**
@@ -46,7 +53,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $categories = Category::all();
+        return view('admin.categories.edit', compact('category', 'categories'));
     }
 
     /**
@@ -54,7 +62,12 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $formData = $request->validated();
+        $slug = Str::slug($formData['name'], '-');
+        $formData['slug'] = $slug;
+
+        $category->update($formData);
+        return to_route('admin.categories.show', $category);
     }
 
     /**
@@ -62,6 +75,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return to_route('admin.categories.index')->with('message', "Category $category->name deleted");
     }
 }
