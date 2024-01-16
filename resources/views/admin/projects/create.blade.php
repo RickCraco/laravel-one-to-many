@@ -29,6 +29,15 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
     </div>
+    <div class="mb-3 text-white">
+        <label for="category">Select a category</label>
+        <select class="form-control @error('category_id') is-invalid @enderror" name="category_id" id="category_id">
+            <option value="">All</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+            @endforeach
+        </select>
+    </div>
     <button type="submit" class="btn btn-success">Save</button>
     <button type="reset" class="btn btn-primary">Reset</button>
     <a href="{{ route('admin.projects.index') }}" class="btn btn-secondary">Back</a>
