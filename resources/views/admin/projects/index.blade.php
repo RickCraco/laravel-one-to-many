@@ -4,6 +4,7 @@
         <h1 class="my-4 text-danger">Projects List</h1>
 
         <a href="{{ route('admin.projects.create') }}" class="btn btn-danger mb-4">Add Project</a>
+        <a href="{{route('admin.dashboard')}}" class="btn btn-danger mb-4 mx-4">Dashboard</a>
 
         @if(session()->has('message'))
             <div class="alert alert-success mt-4">{{ session()->get('message') }}</div>
