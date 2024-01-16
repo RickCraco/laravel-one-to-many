@@ -7,13 +7,11 @@
                 <h5 class="card-title">{{ $category->name }}</h5>
                 <p class="card-text">{{ $category->name }}</p>
 
-                @if($category->projects)
-                    @foreach($category->projects as $project)
-                        <p>{{ $project->title }}</p>
-                    @endforeach
-                @else
-                    <p>No projects</p>
-                @endif
+               @forelse ($category->projects as $project)
+                    <p>{{ $project->title }}</p>
+               @empty
+                    <p>No projects yet</p>
+               @endforelse
 
                 <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-danger">Edit</a>
             </div>
