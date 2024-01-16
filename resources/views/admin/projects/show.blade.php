@@ -7,6 +7,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{ $project->title }}</h5>
                 <p class="card-text">{{ $project->body }}</p>
+                <p>{{$project->category ? $project->category->name : 'Uncategorized'}}</p>
                 <a href="{{ route('admin.projects.edit', $project) }}" class="btn btn-danger">Edit</a>
                 <a href="{{ route('admin.projects.index') }}" class="btn btn-danger">Back</a>
             </div>
