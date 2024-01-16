@@ -10,16 +10,23 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $projects = Project::all();
         $technologies = config('technologies.key');
+
+        if($request->query('technologies')){
+            $projects = Project::where('technologies', 'like', '%' . $request->query('technologies') . '%')->get();
+        }else{
+            $projects = Project::all();
+        }
+        
         return view('admin.projects.index', compact('projects', 'technologies'));
     }
 

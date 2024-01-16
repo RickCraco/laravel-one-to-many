@@ -20,6 +20,16 @@
                 </div>
             </li>
         </ul>
+        <form action="{{ route('admin.projects.index') }}" method="GET" class="d-flex align-items-center">
+            <select name="technologies" id="technologies" class="form-select mb-3 w-25">
+                <option value="">All</option>
+                @foreach ($technologies as $technology)
+                    <option value="{{ $technology['icon'] }}">{{ $technology['name'] }} <i class="{{ $technology['icon'] }}"></i></option>
+                @endforeach
+            </select>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+        
 
         <ul class="list-group">
             @foreach($projects as $project)
