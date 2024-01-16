@@ -19,7 +19,8 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::all();
-        return view('admin.projects.index', compact('projects'));
+        $technologies = config('technologies.key');
+        return view('admin.projects.index', compact('projects', 'technologies'));
     }
 
     /**
@@ -28,7 +29,8 @@ class ProjectController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.projects.create', compact('categories'));
+        $technologies = config('technologies.key');
+        return view('admin.projects.create', compact('categories', 'technologies'));
     }
 
     /**
@@ -47,6 +49,10 @@ class ProjectController extends Controller
             $formData['img'] = $path;
         }
 
+        if($request->input('technologies')){
+            $formData['technologies'] = implode(',', $request->input('technologies'));
+        }
+
         Project::create($formData);
         return redirect()->route('admin.projects.index');
     }
@@ -56,6 +62,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        $project->technologies = explode(',', $project->technologies);
         return view('admin.projects.show', compact('project'));
     }
 
@@ -65,7 +72,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $categories = Category::all();
-        return view('admin.projects.edit', compact('project', 'categories'));
+        $technologies = config('technologies.key');
+        return view('admin.projects.edit', compact('project', 'categories', 'technologies'));
     }
 
     /**
@@ -84,6 +92,12 @@ class ProjectController extends Controller
             }
             $path = Storage::put('uploads', $request->file('img'));
             $formData['img'] = $path;
+        }
+
+        if($request->input('technologies')){
+            $formData['technologies'] = implode(',', $request->input('technologies'));
+        }else{
+            $formData['technologies'] = '';
         }
 
         $project->update($formData);
