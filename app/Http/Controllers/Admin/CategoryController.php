@@ -7,15 +7,22 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::all();
+        if($request->query('search')){
+            $categories = Category::where('name', 'like', '%' . $request->query('search') . '%')->get();
+        }else{
+            $categories = Category::all();
+        }
+        
         return view('admin.categories.index', compact('categories'));
     }
 
