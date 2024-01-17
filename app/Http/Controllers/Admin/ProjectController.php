@@ -23,6 +23,8 @@ class ProjectController extends Controller
 
         if($request->query('technologies')){
             $projects = Project::where('technologies', 'like', '%' . $request->query('technologies') . '%')->get();
+        }elseif($request->query('search')){
+           $projects = Project::where('title', 'like', '%' . $request->query('search') . '%')->get();
         }else{
             $projects = Project::all();
         }

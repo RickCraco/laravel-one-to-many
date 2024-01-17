@@ -40,9 +40,17 @@
                     </ul>
 
                     @auth
-                        <form action="">
-                            @csrf
+                        <form @if(Route::currentRouteName() == 'admin.projects.index')
+                                action="{{ route('admin.projects.index') }}"
+                            @elseif(Route::currentRouteName() == 'admin.categories.index')
+                            action="{{ route('admin.categories.index') }}"
+                            @endif
+                        method="GET">
+
+                             @csrf
+
                             <input type="text" name="search" id="search" class="form-control" placeholder="Cerca">
+
                         </form>
                     @endauth
 
